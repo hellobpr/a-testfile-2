@@ -1,4 +1,4 @@
-name: Node.js CI Pipeline
+name: Node.js CI
 
 on:
   push:
@@ -13,16 +13,19 @@ jobs:
       - name: 1. Checkout repository
         uses: actions/checkout@v4
 
-      - name: 2. Setup Node.js (v18)
+      - name: 2. Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Print Node.js version
-        run: node -v    
+      - name: 3. Print Node.js version
+        run: node -v
 
-      - name: 3. Install dependencies
+      - name: 4. Install dependencies
         run: npm install
 
-      - name: 4. Run application
+      - name: 5. Run tests
+        run: npm test
+
+      - name: 6. Run application
         run: node index.js
