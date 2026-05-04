@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: 18
 
+      - name: Print Node.js version
+        run: node -v    
+
       - name: 3. Install dependencies
         run: npm install
 
