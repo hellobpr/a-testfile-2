@@ -1,5 +1,4 @@
 const express = require('express');
-const { version } = require('react');
 
 const app = express();
 const PORT = 3000;
