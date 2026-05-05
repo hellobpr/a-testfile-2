@@ -1,0 +1,42 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Git tag to rollback to (e.g. v1.0.0)"
+        required: true
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code at tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.version }}
+
+      - name: Set image tag
+        run: echo "IMAGE_TAG=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+
+      # Optional: skip build if image already exists
+      - name: Login to Docker registry
+        run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+      - name: Pull existing image
+        run: docker pull my-app:${IMAGE_TAG}
+
+      - name: Deploy previous version
+        run: |
+          docker stop my-app || true
+          docker rm my-app || true
+          docker run -d \
+            --name my-app \
+            -p 3000:3000 \
+            my-app:${IMAGE_TAG}
+
+      - name: Verify health
+        run: |
+          sleep 10
+          curl -f http://localhost:3000/health
