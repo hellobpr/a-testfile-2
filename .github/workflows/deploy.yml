@@ -19,5 +19,8 @@ jobs:
       - name: Run container (simulation)
         run: docker run -d -p 3000:3000 my-node-app
 
+      - name: Verify application is running
+        run: curl --fail http://localhost:3000/health
+
       - name: Verify container is running
         run: docker ps

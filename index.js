@@ -1,4 +1,5 @@
 const express = require('express');
+const { version } = require('react');
 
 const app = express();
 const PORT = 3000;
@@ -23,10 +24,16 @@ app.use((req, res, next) => {
 app.get('/health', (req, res) => {
   res.json({
     status: 'OK',
+    version: "v1",
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
   });
 });
+
+//ERROR 
+// app.get('/health', (req, res) => {
+//   throw new Error('Broken deployment v2');
+// });
 
 // Mock users data
 const users = [
