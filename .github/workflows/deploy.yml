@@ -1,4 +1,4 @@
-name: CI/CD Build and Simulate Deploy Node.js Docker App
+name: Deploy Node.js Docker App
 
 on:
   push:
@@ -10,26 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set Up Docker Build
-        run: |
-          echo "Building Docker image for Node.js app..."
-          docker build -t my-node-app .
+      - name: Build Docker image
+        run: docker build -t my-node-app .
 
-      - name: Simulate Deployment: Start Container
-        run: |
-          echo "Simulating deployment by running container..."
-          docker run -d --name my-node-app-test -p 3000:3000 my-node-app
+      - name: Run container (simulation)
+        run: docker run -d -p 3000:3000 my-node-app
 
-      - name: Health Check: Container Status
-        run: |
-          echo "Checking if container is running..."
-          docker ps | grep my-node-app
-
-      - name: Simulate Deployment: Clean Up
-        run: |
-          echo "Stopping and removing test container..."
-          docker stop my-node-app-test
-          docker rm my-node-app-test
+      - name: Verify container is running
+        run: docker ps
