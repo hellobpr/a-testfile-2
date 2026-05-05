@@ -1,0 +1,23 @@
+name: Deploy Node.js Docker App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t my-node-app .
+
+      - name: Run container (simulation)
+        run: docker run -d -p 3000:3000 my-node-app
+
+      - name: Verify container is running
+        run: docker ps
