@@ -20,19 +20,19 @@ app.use((req, res, next) => {
 // --- Routes ---
 
 // Health check endpoint
-// app.get('/health', (req, res) => {
-//   res.json({
-//     status: 'OK',
-//     version: "v1",
-//     uptime: process.uptime(),
-//     timestamp: new Date().toISOString(),
-//   });
-// });
-
-//ERROR (version v2)
 app.get('/health', (req, res) => {
-  throw new Error('Broken deployment v2');
+  res.json({
+    status: 'OK',
+    version: "v1",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+  });
 });
+
+// //ERROR (version v2)
+// app.get('/health', (req, res) => {
+//   throw new Error('Broken deployment v2');
+// });
 
 // Mock users data
 const users = [
