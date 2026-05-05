@@ -29,7 +29,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-//ERROR 
+//ERROR (version v2)
 // app.get('/health', (req, res) => {
 //   throw new Error('Broken deployment v2');
 // });
